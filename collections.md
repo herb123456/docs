@@ -42,11 +42,11 @@
             return Str::upper($value);
         });
     });
-
+    
     $collection = collect(['first', 'second']);
-
+    
     $upper = $collection->toUpper();
-
+    
     // ['FIRST', 'SECOND']
 
 
@@ -62,7 +62,7 @@
         column-count: 3; -moz-column-count: 3; -webkit-column-count: 3;
         column-gap: 2em; -moz-column-gap: 2em; -webkit-column-gap: 2em;
     }
-
+    
     #collection-method-list a {
         display: block;
     }
@@ -176,7 +176,7 @@
     #collection-method code {
         font-size: 14px;
     }
-
+    
     #collection-method:not(.first-collection-method) {
         margin-top: 50px;
     }
@@ -292,9 +292,9 @@
         ['product' => 'Desk', 'price' => 200],
         ['product' => 'Chair', 'price' => 100],
     ]);
-
+    
     $collection->contains('product', 'Bookcase');
-
+    
     // false
 
 最後，你也可以傳入一個回呼函式到 `contains` 方法內執行你自己的判斷式：
@@ -304,7 +304,7 @@
     $collection->contains(function ($value, $key) {
         return $value > 5;
     });
-
+    
     // false
 
 `contains` 方法使用`弱型別比較`，所以當字串的內容是數字時，比較的結果會等於型態是 integer 的數字。可使用 [`containsStrict`](#method-containsstrict) 方法改成強型別比較。
@@ -344,13 +344,13 @@
             [2, 'b'],
         ]
     */
-
+    
     $collection = collect([1, 2]);
-
+    
     $matrix = $collection->crossJoin(['a', 'b'], ['I', 'II']);
-
+    
     $matrix->all();
-
+    
     /*
         [
             [1, 'a', 'I'],
@@ -405,23 +405,22 @@
         'type' => 'fruit',
         'remain' => 6
     ]);
-
+    
     $diff = $collection->diffAssoc([
         'color' => 'yellow',
         'type' => 'fruit',
         'remain' => 3,
         'used' => 6
     ]);
-
+    
     $diff->all();
-
+    
     // ['color' => 'orange', 'remain' => 6]
 
 <a name="method-diffkeys"></a>
 #### `diffKeys()` {#collection-method}
 
 `diffKeys` 方法會比較其他集合或以純PHP `array` 的鍵為比較標的。最後返回有在原始集合裡，但沒有在給定集合內的鍵與其對應的值: 
-The `diffKeys` method compares the collection against another collection or a plain PHP `array` based on its keys. This method will return the key / value pairs in the original collection that are not present in the given collection:
 
     $collection = collect([
         'one' => 10,
@@ -430,16 +429,16 @@ The `diffKeys` method compares the collection against another collection or a pl
         'four' => 40,
         'five' => 50,
     ]);
-
+    
     $diff = $collection->diffKeys([
         'two' => 2,
         'four' => 4,
         'six' => 6,
         'eight' => 8,
     ]);
-
+    
     $diff->all();
-
+    
     // ['one' => 10, 'three' => 30, 'five' => 50]
 
 <a name="method-dump"></a>
@@ -504,7 +503,7 @@ The `diffKeys` method compares the collection against another collection or a pl
     collect([1, 2, 3, 4])->every(function ($value, $key) {
         return $value > 2;
     });
-
+    
     // false
 
 <a name="method-except"></a>
@@ -532,9 +531,9 @@ The `diffKeys` method compares the collection against another collection or a pl
     $filtered = $collection->filter(function ($value, $key) {
         return $value > 2;
     });
-
+    
     $filtered->all();
-
+    
     // [3, 4]
 
 如果沒有提供回呼函式，就會移除所有等於 `false` 的元素:
@@ -555,7 +554,7 @@ The `diffKeys` method compares the collection against another collection or a pl
     collect([1, 2, 3, 4])->first(function ($value, $key) {
         return $value > 2;
     });
-
+    
     // 3
 
 你也可以不傳入參數使用 `first` 方法以取得集合中第一個元素。如果集合是空的，則會回傳 `null`：
@@ -567,26 +566,26 @@ The `diffKeys` method compares the collection against another collection or a pl
 <a name="method-flatmap"></a>
 #### `flatMap()` {#collection-method}
 
-The `flatMap` method iterates through the collection and passes each value to the given callback. The callback is free to modify the item and return it, thus forming a new collection of modified items. Then, the array is flattened by a level:
+`flatMap` 方法將集合內元素傳入回呼函式中，此回呼函式可對每個元素任意修改並回傳，最後由回傳的元素形成一個新的集合，即是`flattened`一個階層後的結果。
 
     $collection = collect([
         ['name' => 'Sally'],
         ['school' => 'Arkansas'],
         ['age' => 28]
     ]);
-
+    
     $flattened = $collection->flatMap(function ($values) {
         return array_map('strtoupper', $values);
     });
-
+    
     $flattened->all();
-
+    
     // ['name' => 'SALLY', 'school' => 'ARKANSAS', 'age' => '28'];
 
 <a name="method-flatten"></a>
 #### `flatten()` {#collection-method}
 
-The `flatten` method flattens a multi-dimensional collection into a single dimension:
+`flatten` 方法將多維集合轉為一維集合：
 
     $collection = collect(['name' => 'taylor', 'languages' => ['php', 'javascript']]);
 
@@ -596,7 +595,7 @@ The `flatten` method flattens a multi-dimensional collection into a single dimen
 
     // ['taylor', 'php', 'javascript'];
 
-You may optionally pass the function a "depth" argument:
+你還可以帶入"深度"參數
 
     $collection = collect([
         'Apple' => [
@@ -606,11 +605,11 @@ You may optionally pass the function a "depth" argument:
             ['name' => 'Galaxy S7', 'brand' => 'Samsung']
         ],
     ]);
-
+    
     $products = $collection->flatten(1);
-
+    
     $products->values()->all();
-
+    
     /*
         [
             ['name' => 'iPhone 6S', 'brand' => 'Apple'],
@@ -618,12 +617,12 @@ You may optionally pass the function a "depth" argument:
         ]
     */
 
-In this example, calling `flatten` without providing the depth would have also flattened the nested arrays, resulting in `['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`. Providing a depth allows you to restrict the levels of nested arrays that will be flattened.
+在這例子中，若沒有帶入"深度"參數，將會得到`['iPhone 6S', 'Apple', 'Galaxy S7', 'Samsung']`的結果。提供深度可指定從哪一階層開始。
 
 <a name="method-flip"></a>
 #### `flip()` {#collection-method}
 
-The `flip` method swaps the collection's keys with their corresponding values:
+`flip` 方法將集合中的鍵和對應的數值進行互換：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -636,7 +635,7 @@ The `flip` method swaps the collection's keys with their corresponding values:
 <a name="method-forget"></a>
 #### `forget()` {#collection-method}
 
-The `forget` method removes an item from the collection by its key:
+`forget` 方法以鍵自集合移除掉一個項目：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -646,12 +645,12 @@ The `forget` method removes an item from the collection by its key:
 
     // ['framework' => 'laravel']
 
-> {note} Unlike most other collection methods, `forget` does not return a new modified collection; it modifies the collection it is called on.
+> **注意：**與大多數其他集合的方法不同，`forget` 不會回傳修改過後的新集合；它會直接修改它被呼叫的集合。
 
 <a name="method-forpage"></a>
 #### `forPage()` {#collection-method}
 
-The `forPage` method returns a new collection containing the items that would be present on a given page number. The method accepts the page number as its first argument and the number of items to show per page as its second argument:
+`forPage` 方法回傳含有可以用來在給定頁碼顯示的項目的新集合。第一個參數是頁數，第二個則是每頁要顯示的比數。
 
     $collection = collect([1, 2, 3, 4, 5, 6, 7, 8, 9]);
 
@@ -664,7 +663,7 @@ The `forPage` method returns a new collection containing the items that would be
 <a name="method-get"></a>
 #### `get()` {#collection-method}
 
-The `get` method returns the item at a given key. If the key does not exist, `null` is returned:
+`get` 方法回傳給定鍵的項目。如果該鍵不存在，則回傳 `null`：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -672,7 +671,7 @@ The `get` method returns the item at a given key. If the key does not exist, `nu
 
     // taylor
 
-You may optionally pass a default value as the second argument:
+你可以選擇性地傳入一個預設值為第二個參數：
 
     $collection = collect(['name' => 'taylor', 'framework' => 'laravel']);
 
@@ -680,29 +679,29 @@ You may optionally pass a default value as the second argument:
 
     // default-value
 
-You may even pass a callback as the default value. The result of the callback will be returned if the specified key does not exist:
+你甚至可以傳入回呼函式當預設值。如果指定的鍵不存在，就會回傳回呼函式的執行結果：
 
     $collection->get('email', function () {
         return 'default-value';
     });
-
+    
     // default-value
 
 <a name="method-groupby"></a>
 #### `groupBy()` {#collection-method}
 
-The `groupBy` method groups the collection's items by a given key:
+`groupBy` 方法根據給定的鍵替集合內的項目分組：
 
     $collection = collect([
         ['account_id' => 'account-x10', 'product' => 'Chair'],
         ['account_id' => 'account-x10', 'product' => 'Bookcase'],
         ['account_id' => 'account-x11', 'product' => 'Desk'],
     ]);
-
+    
     $grouped = $collection->groupBy('account_id');
-
+    
     $grouped->toArray();
-
+    
     /*
         [
             'account-x10' => [
@@ -715,14 +714,14 @@ The `groupBy` method groups the collection's items by a given key:
         ]
     */
 
-In addition to passing a string `key`, you may also pass a callback. The callback should return the value you wish to key the group by:
+除了傳入字串的`鍵`之外，你也可以傳入回呼函式。該函式應該回傳你希望用來分組的鍵的值。
 
     $grouped = $collection->groupBy(function ($item, $key) {
         return substr($item['account_id'], -3);
     });
-
+    
     $grouped->toArray();
-
+    
     /*
         [
             'x10' => [
@@ -738,7 +737,7 @@ In addition to passing a string `key`, you may also pass a callback. The callbac
 <a name="method-has"></a>
 #### `has()` {#collection-method}
 
-The `has` method determines if a given key exists in the collection:
+`has` 方法用來確認集合中是否含有給定的鍵：
 
     $collection = collect(['account_id' => 1, 'product' => 'Desk']);
 
@@ -749,18 +748,20 @@ The `has` method determines if a given key exists in the collection:
 <a name="method-implode"></a>
 #### `implode()` {#collection-method}
 
-The `implode` method joins the items in a collection. Its arguments depend on the type of items in the collection. If the collection contains arrays or objects, you should pass the key of the attributes you wish to join, and the "glue" string you wish to place between the values:
+`implode` 方法連接集合中的項目。它的參數依集合中的項目類型而定。
+
+假如集合含有陣列或物件，你應該傳入你希望連接的屬性的鍵，以及你希望放在數值之間的「黏著」字串：
 
     $collection = collect([
         ['account_id' => 1, 'product' => 'Desk'],
         ['account_id' => 2, 'product' => 'Chair'],
     ]);
-
+    
     $collection->implode('product', ', ');
-
+    
     // Desk, Chair
 
-If the collection contains simple strings or numeric values, simply pass the "glue" as the only argument to the method:
+假如集合只含有簡單的字串或數字，就只要傳入黏著字串作該方法唯一的參數：
 
     collect([1, 2, 3, 4, 5])->implode('-');
 
@@ -769,7 +770,7 @@ If the collection contains simple strings or numeric values, simply pass the "gl
 <a name="method-intersect"></a>
 #### `intersect()` {#collection-method}
 
-The `intersect` method removes any values from the original collection that are not present in the given `array` or collection. The resulting collection will preserve the original collection's keys:
+`intersect` 方法移除任何給定`陣列`或集合內所沒有的數值。
 
     $collection = collect(['Desk', 'Sofa', 'Chair']);
 
@@ -779,6 +780,8 @@ The `intersect` method removes any values from the original collection that are 
 
     // [0 => 'Desk', 2 => 'Chair']
 
+如你所見，最後出來的集合將會保留原始集合的鍵。
+
 <a name="method-intersectbykeys"></a>
 #### `intersectByKeys()` {#collection-method}
 
@@ -787,13 +790,13 @@ The `intersectByKeys` method removes any keys from the original collection that 
     $collection = collect([
         'serial' => 'UX301', 'type' => 'screen', 'year' => 2009
     ]);
-
+    
     $intersect = $collection->intersectByKeys([
         'reference' => 'UX404', 'type' => 'tab', 'year' => 2011
     ]);
-
+    
     $intersect->all();
-
+    
     // ['type' => 'screen', 'year' => 2009]
 
 <a name="method-isempty"></a>
@@ -823,11 +826,11 @@ The `keyBy` method keys the collection by the given key. If multiple items have 
         ['product_id' => 'prod-100', 'name' => 'Desk'],
         ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
-
+    
     $keyed = $collection->keyBy('product_id');
-
+    
     $keyed->all();
-
+    
     /*
         [
             'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -840,9 +843,9 @@ You may also pass a callback to the method. The callback should return the value
     $keyed = $collection->keyBy(function ($item) {
         return strtoupper($item['product_id']);
     });
-
+    
     $keyed->all();
-
+    
     /*
         [
             'PROD-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
@@ -859,11 +862,11 @@ The `keys` method returns all of the collection's keys:
         'prod-100' => ['product_id' => 'prod-100', 'name' => 'Desk'],
         'prod-200' => ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
-
+    
     $keys = $collection->keys();
-
+    
     $keys->all();
-
+    
     // ['prod-100', 'prod-200']
 
 <a name="method-last"></a>
@@ -874,7 +877,7 @@ The `last` method returns the last element in the collection that passes a given
     collect([1, 2, 3, 4])->last(function ($value, $key) {
         return $value < 3;
     });
-
+    
     // 2
 
 You may also call the `last` method with no arguments to get the last element in the collection. If the collection is empty, `null` is returned:
@@ -903,9 +906,9 @@ The `map` method iterates through the collection and passes each value to the gi
     $multiplied = $collection->map(function ($item, $key) {
         return $item * 2;
     });
-
+    
     $multiplied->all();
-
+    
     // [2, 4, 6, 8, 10]
 
 > {note} Like most other collection methods, `map` returns a new collection instance; it does not modify the collection it is called on. If you want to transform the original collection, use the [`transform`](#method-transform) method.
@@ -928,13 +931,13 @@ The `mapInto()` method iterates over the collection, creating a new instance of 
             $this->code = $code;
         }
     }
-
+    
     $collection = collect(['USD', 'EUR', 'GBP']);
-
+    
     $currencies = $collection->mapInto(Currency::class);
-
+    
     $currencies->all();
-
+    
     // [Currency('USD'), Currency('EUR'), Currency('GBP')]
 
 <a name="method-mapspread"></a>
@@ -949,9 +952,9 @@ The `mapSpread` method iterates over the collection's items, passing each nested
     $sequence = $chunks->mapSpread(function ($odd, $even) {
         return $odd + $even;
     });
-
+    
     $sequence->all();
-
+    
     // [1, 5, 9, 13, 17]
 
 <a name="method-maptogroups"></a>
@@ -973,22 +976,22 @@ The `mapToGroups` method groups the collection's items by the given callback. Th
             'department' => 'Marketing',
         ]
     ]);
-
+    
     $grouped = $collection->mapToGroups(function ($item, $key) {
         return [$item['department'] => $item['name']];
     });
-
+    
     $grouped->toArray();
-
+    
     /*
         [
             'Sales' => ['John Doe', 'Jane Doe'],
             'Marketing' => ['Johhny Doe'],
         ]
     */
-
+    
     $grouped->get('Sales')->all();
-
+    
     // ['John Doe', 'Jane Doe']
 
 <a name="method-mapwithkeys"></a>
@@ -1008,13 +1011,13 @@ The `mapWithKeys` method iterates through the collection and passes each value t
             'email' => 'jane@example.com'
         ]
     ]);
-
+    
     $keyed = $collection->mapWithKeys(function ($item) {
         return [$item['email'] => $item['name']];
     });
-
+    
     $keyed->all();
-
+    
     /*
         [
             'john@example.com' => 'John',
@@ -1171,7 +1174,7 @@ The `pipe` method passes the collection to the given callback and returns the re
     $piped = $collection->pipe(function ($collection) {
         return $collection->sum();
     });
-
+    
     // 6
 
 <a name="method-pluck"></a>
@@ -1183,11 +1186,11 @@ The `pluck` method retrieves all of the values for a given key:
         ['product_id' => 'prod-100', 'name' => 'Desk'],
         ['product_id' => 'prod-200', 'name' => 'Chair'],
     ]);
-
+    
     $plucked = $collection->pluck('name');
-
+    
     $plucked->all();
-
+    
     // ['Desk', 'Chair']
 
 You may also specify how you wish the resulting collection to be keyed:
@@ -1306,7 +1309,7 @@ The `reduce` method reduces the collection to a single value, passing the result
     $total = $collection->reduce(function ($carry, $item) {
         return $carry + $item;
     });
-
+    
     // 6
 
 The value for `$carry` on the first iteration is `null`; however, you may specify its initial value by passing a second argument to `reduce`:
@@ -1314,7 +1317,7 @@ The value for `$carry` on the first iteration is `null`; however, you may specif
     $collection->reduce(function ($carry, $item) {
         return $carry + $item;
     }, 4);
-
+    
     // 10
 
 <a name="method-reject"></a>
@@ -1327,9 +1330,9 @@ The `reject` method filters the collection using the given callback. The callbac
     $filtered = $collection->reject(function ($value, $key) {
         return $value > 2;
     });
-
+    
     $filtered->all();
-
+    
     // [1, 2]
 
 For the inverse of the `reject` method, see the [`filter`](#method-filter) method.
@@ -1369,7 +1372,7 @@ Alternatively, you may pass in your own callback to search for the first item th
     $collection->search(function ($item, $key) {
         return $item > 5;
     });
-
+    
     // 2
 
 <a name="method-shift"></a>
@@ -1450,11 +1453,11 @@ The `sortBy` method sorts the collection by the given key. The sorted collection
         ['name' => 'Chair', 'price' => 100],
         ['name' => 'Bookcase', 'price' => 150],
     ]);
-
+    
     $sorted = $collection->sortBy('price');
-
+    
     $sorted->values()->all();
-
+    
     /*
         [
             ['name' => 'Chair', 'price' => 100],
@@ -1470,13 +1473,13 @@ You can also pass your own callback to determine how to sort the collection valu
         ['name' => 'Chair', 'colors' => ['Black']],
         ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
     ]);
-
+    
     $sorted = $collection->sortBy(function ($product, $key) {
         return count($product['colors']);
     });
-
+    
     $sorted->values()->all();
-
+    
     /*
         [
             ['name' => 'Chair', 'colors' => ['Black']],
@@ -1563,9 +1566,9 @@ If the collection contains nested arrays or objects, you should pass a key to us
         ['name' => 'JavaScript: The Good Parts', 'pages' => 176],
         ['name' => 'JavaScript: The Definitive Guide', 'pages' => 1096],
     ]);
-
+    
     $collection->sum('pages');
-
+    
     // 1272
 
 In addition, you may pass your own callback to determine which values of the collection to sum:
@@ -1575,11 +1578,11 @@ In addition, you may pass your own callback to determine which values of the col
         ['name' => 'Desk', 'colors' => ['Black', 'Mahogany']],
         ['name' => 'Bookcase', 'colors' => ['Red', 'Beige', 'Brown']],
     ]);
-
+    
     $collection->sum(function ($product) {
         return count($product['colors']);
     });
-
+    
     // 6
 
 <a name="method-take"></a>
@@ -1616,7 +1619,7 @@ The `tap` method passes the collection to the given callback, allowing you to "t
             Log::debug('Values after sorting', $collection->values()->toArray());
         })
         ->shift();
-
+    
     // 1
 
 <a name="method-times"></a>
@@ -1627,9 +1630,9 @@ The static `times` method creates a new collection by invoking the callback a gi
     $collection = Collection::times(10, function ($number) {
         return $number * 9;
     });
-
+    
     $collection->all();
-
+    
     // [9, 18, 27, 36, 45, 54, 63, 72, 81, 90]
 
 This method can be useful when combined with factories to create [Eloquent](/docs/{{version}}/eloquent) models:
@@ -1637,9 +1640,9 @@ This method can be useful when combined with factories to create [Eloquent](/doc
     $categories = Collection::times(3, function ($number) {
         return factory(Category::class)->create(['name' => 'Category #'.$number]);
     });
-
+    
     $categories->all();
-
+    
     /*
         [
             ['id' => 1, 'name' => 'Category #1'],
@@ -1686,9 +1689,9 @@ The `transform` method iterates over the collection and calls the given callback
     $collection->transform(function ($item, $key) {
         return $item * 2;
     });
-
+    
     $collection->all();
-
+    
     // [2, 4, 6, 8, 10]
 
 > {note} Unlike most other collection methods, `transform` modifies the collection itself. If you wish to create a new collection instead, use the [`map`](#method-map) method.
@@ -1728,11 +1731,11 @@ When dealing with nested arrays or objects, you may specify the key used to dete
         ['name' => 'Galaxy S6', 'brand' => 'Samsung', 'type' => 'phone'],
         ['name' => 'Galaxy Gear', 'brand' => 'Samsung', 'type' => 'watch'],
     ]);
-
+    
     $unique = $collection->unique('brand');
-
+    
     $unique->values()->all();
-
+    
     /*
         [
             ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -1745,9 +1748,9 @@ You may also pass your own callback to determine item uniqueness:
     $unique = $collection->unique(function ($item) {
         return $item['brand'].$item['type'];
     });
-
+    
     $unique->values()->all();
-
+    
     /*
         [
             ['name' => 'iPhone 6', 'brand' => 'Apple', 'type' => 'phone'],
@@ -1774,13 +1777,13 @@ The `unless` method will execute the given callback unless the first argument gi
     $collection->unless(true, function ($collection) {
         return $collection->push(4);
     });
-
+    
     $collection->unless(false, function ($collection) {
         return $collection->push(5);
     });
-
+    
     $collection->all();
-
+    
     // [1, 2, 3, 5]
 
 For the inverse of `unless`, see the [`when`](#method-when) method.
@@ -1811,11 +1814,11 @@ The `values` method returns a new collection with the keys reset to consecutive 
         10 => ['product' => 'Desk', 'price' => 200],
         11 => ['product' => 'Desk', 'price' => 200]
     ]);
-
+    
     $values = $collection->values();
-
+    
     $values->all();
-
+    
     /*
         [
             0 => ['product' => 'Desk', 'price' => 200],
@@ -1833,13 +1836,13 @@ The `when` method will execute the given callback when the first argument given 
     $collection->when(true, function ($collection) {
         return $collection->push(4);
     });
-
+    
     $collection->when(false, function ($collection) {
         return $collection->push(5);
     });
-
+    
     $collection->all();
-
+    
     // [1, 2, 3, 4]
 
 For the inverse of `when`, see the [`unless`](#method-unless) method.
@@ -1855,11 +1858,11 @@ The `where` method filters the collection by a given key / value pair:
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-
+    
     $filtered = $collection->where('price', 100);
-
+    
     $filtered->all();
-
+    
     /*
         [
             ['product' => 'Chair', 'price' => 100],
@@ -1885,11 +1888,11 @@ The `whereIn` method filters the collection by a given key / value contained wit
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-
+    
     $filtered = $collection->whereIn('price', [150, 200]);
-
+    
     $filtered->all();
-
+    
     /*
         [
             ['product' => 'Bookcase', 'price' => 150],
@@ -1915,11 +1918,11 @@ The `whereNotIn` method filters the collection by a given key / value not contai
         ['product' => 'Bookcase', 'price' => 150],
         ['product' => 'Door', 'price' => 100],
     ]);
-
+    
     $filtered = $collection->whereNotIn('price', [150, 200]);
-
+    
     $filtered->all();
-
+    
     /*
         [
             ['product' => 'Chair', 'price' => 100],

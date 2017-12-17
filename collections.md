@@ -1434,7 +1434,7 @@ The `intersectByKeys` method removes any keys from the original collection that 
 
     $collection = collect([5, 3, 1, 2, 4]);
 
-    $sorted = $collection->sort();
+    W$sorted = $collection->sort();
 
     $sorted->values()->all();
 
@@ -1978,15 +1978,15 @@ The `intersectByKeys` method removes any keys from the original collection that 
 <a name="higher-order-messages"></a>
 ## 高階訊息傳遞
 
-Collections also provide support for "higher order messages", which are short-cuts for performing common actions on collections. The collection methods that provide higher order messages are: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, and `sum`.
+集合也支援"高階訊息傳遞", 這對於集合的一般方法來說是捷徑。 集合裡提供高階訊息傳遞的方法有: `average`, `avg`, `contains`, `each`, `every`, `filter`, `first`, `flatMap`, `map`, `partition`, `reject`, `sortBy`, `sortByDesc`, 和 `sum`。
 
-Each higher order message can be accessed as a dynamic property on a collection instance. For instance, let's use the `each` higher order message to call a method on each object within a collection:
+每個高階訊息傳遞像是存取集合的動態屬性一樣。 例如, 我們用高階訊息傳遞的`each`來讓集合內的每個元素都呼叫一個方法:
 
     $users = User::where('votes', '>', 500)->get();
 
     $users->each->markAsVip();
 
-Likewise, we can use the `sum` higher order message to gather the total number of "votes" for a collection of users:
+同樣的, 我們可以用`sum`高階訊息傳遞去收集集合內使用者的"votes"總數:
 
     $users = User::where('group', 'Development')->get();
 
